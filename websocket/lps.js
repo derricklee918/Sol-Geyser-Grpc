@@ -1,0 +1,66 @@
+// require('dotenv').config();
+import WebSocket from 'ws';
+
+const quoteTokens = [
+    // USDC
+    'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+    // SOL
+    'So11111111111111111111111111111111111111112',
+];
+
+class WebsocketClient {
+    constructor() {
+        this.ws = null;
+    }
+
+    async connect() {
+        this.ws = new WebSocket('wss://kiki-stream.hellomoon.io');
+
+        this.ws.on('open', () => {
+            console.log('connected');
+            this.subscribe();
+        });
+
+        this.ws.on('message', data => {
+            if (!data) return;
+            data = JSON.parse(data);
+            if (data === 'You have successfully subscribed') {
+                console.log('You have successfully subscribed');
+                return;
+            }
+            this.handleMessage(data);
+        });
+
+        this.ws.on('close', () => {
+            console.log('closed');
+            this.connect();
+        });
+
+        this.ws.on('error', error => {
+            console.error('WebSocket error:', error);
+            this.connect();
+        });
+    }
+
+    async handleMessage(data) {
+        for (const lp of data) {
+        // do something
+            console.log(lp);
+        }
+    }
+
+    subscribe() {
+        this.ws.send(
+            JSON.stringify({
+                action: 'subscribe',
+                apiKey: process.env.HELLO_MOON_API_KEY,
+                subscriptionId: process.env.HELLO_MOON_LP_BALANCES_SUBSCRIPTION_ID,
+            }),
+        );
+    }
+
+}
+
+// Initial connection
+const socket = new WebsocketClient();
+socket.connect();
