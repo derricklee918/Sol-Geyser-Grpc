@@ -10,6 +10,11 @@ I have successfully implemented these methods in my Pump.fun and Raydium sniping
 
 If you need assistance with integrating these approaches into your projects, feel free to reach out to me.
 
+# Hot to clone this project
+```bash
+   git clone https://github.com/derricklee918/Sol-Geyser-Grpc.git
+   cd Sol-Geyser-Grpc
+   ```
 
 ### Contact me
 Telegram: [@derricklee918](https://t.me/@derricklee918)
